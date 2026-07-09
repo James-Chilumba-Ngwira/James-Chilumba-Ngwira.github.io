@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>James Chilumba Ngwira, Software Engineer, Full-Stack &amp; 3D Web Developer</title>
+<meta name="description" content="Portfolio of James Chilumba Ngwira, Computer Science graduate building with blockchain, machine learning, Three.js and modern full-stack frameworks. Applying for a Master's in Computer Science." />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='rgb(10,14,20)'/><text x='50' y='67' font-family='Space Grotesk, Archivo, sans-serif' font-size='46' font-weight='800' text-anchor='middle' fill='rgb(255,122,61)'>JN</text></svg>" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* ===================== DESIGN TOKENS ===================== */
+  :root{
+    --bg:        #0a0e14;   /* near-black navy, tamalsen-style */
+    --bg-2:      #0d1219;
+    --surface:   #131924;
+    --surface-2: #1a2130;
+    --line:      #262f3f;
+    --text:      #f3f5f9;
+    --muted:     #8b93a5;
+    --accent:    #ff7a3d;   /* warm amber glow */
+    --accent-soft:#ffb37a;
+    --cyan:      #4fd6ff;   /* nav / mono accent */
+    --violet:    #8b7cff;   /* small accent detail */
+
+    --glass:        rgba(19,25,36,.5);
+    --glass-hover:   rgba(26,33,48,.6);
+    --glass-border: rgba(243,245,249,.09);
+    --glass-border-hi: rgba(243,245,249,.18);
+    --blur: 18px;
+
+    --font-display: "Archivo", "Space Grotesk", system-ui, sans-serif;
+    --font-head:    "Space Grotesk", system-ui, sans-serif;
+    --font-body:    "Inter", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    --maxw: 1720px;
+    --radius: 16px;
+  }
+
+  /* ===================== BASE ===================== */
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; scroll-padding-top:96px; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  ::selection{ background:var(--accent); color:#0a0e14; }
+
+  .wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(20px,3vw,40px); position:relative; z-index:1; }
+
+  /* ===================== AMBIENT AURORA + GRAIN ===================== */
+  .aurora{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  .aurora span{
+    position:absolute; border-radius:50%; filter:blur(90px); opacity:.5; mix-blend-mode:screen;
+    will-change:transform;
+  }
+  .aurora span:nth-child(1){
+    width:640px; height:640px; top:-220px; left:-120px;
+    background:radial-gradient(circle at 30% 30%, rgba(255,122,61,.55), transparent 70%);
+    animation:auroraDrift1 34s ease-in-out infinite;
+  }
+  .aurora span:nth-child(2){
+    width:560px; height:560px; top:20%; right:-160px;
+    background:radial-gradient(circle at 60% 40%, rgba(79,214,255,.4), transparent 70%);
+    animation:auroraDrift2 40s ease-in-out infinite;
+  }
+  .aurora span:nth-child(3){
+    width:520px; height:520px; bottom:-200px; left:30%;
+    background:radial-gradient(circle at 50% 50%, rgba(139,124,255,.35), transparent 70%);
+    animation:auroraDrift3 46s ease-in-out infinite;
+  }
+  @keyframes auroraDrift1{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(80px,60px) scale(1.15); } }
+  @keyframes auroraDrift2{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-70px,50px) scale(1.1); } }
+  @keyframes auroraDrift3{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(60px,-70px) scale(1.12); } }
+
+  .grain{
+    position:fixed; inset:-10%; z-index:2; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* masks page content from peeking above/around the floating nav pill */
+  .top-fade{
+    position:fixed; top:0; left:0; right:0; height:112px; z-index:40; pointer-events:none;
+    background:linear-gradient(180deg, var(--bg) 0%, var(--bg) 38%, transparent 100%);
+  }
+
+  /* ===================== SCROLL PROGRESS ===================== */
+  .scroll-progress{
+    position:fixed; top:0; left:0; height:3px; width:0%; z-index:100;
+    background:linear-gradient(90deg,var(--accent),var(--cyan)); transition:width .08s linear;
+  }
+
+  /* ===================== CUSTOM CURSOR ===================== */
+  html.has-cursor, html.has-cursor a, html.has-cursor button{ cursor:none; }
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0; z-index:300; pointer-events:none;
+    border-radius:50%; transform:translate(-50%,-50%);
+  }
+  .cursor-dot{ width:6px; height:6px; background:var(--cyan); opacity:0; transition:opacity .2s; }
+  .cursor-ring{
+    width:34px; height:34px; border:1.5px solid rgba(79,214,255,.55);
+    opacity:0; transition:opacity .2s, width .25s, height .25s, border-color .25s, background .25s;
+  }
+  html.has-cursor .cursor-dot, html.has-cursor .cursor-ring{ opacity:1; }
+  .cursor-ring.hover{ width:60px; height:60px; border-color:var(--accent); background:rgba(255,122,61,.08); }
+
+  /* ===================== PRELOADER / COVER INTRO ===================== */
+  #intro{
+    position:fixed; inset:0; z-index:200; background:var(--bg);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    transition:opacity .7s ease, visibility .7s ease;
+  }
+  #intro.done{ opacity:0; visibility:hidden; pointer-events:none; }
+  .intro-name{
+    font-family:var(--font-display); font-weight:900; letter-spacing:-1px;
+    font-size:clamp(1.8rem,7vw,4.2rem); overflow:hidden; white-space:nowrap;
+    border-right:3px solid var(--cyan);
+    width:0; animation:typeIn 1.5s steps(23,end) forwards .3s, caretBlink .8s step-end infinite;
+  }
+  @keyframes typeIn{ from{ width:0; } to{ width:23.5ch; } }
+  @keyframes caretBlink{ 50%{ border-color:transparent; } }
+  .intro-sub{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-top:18px;
+    opacity:0; animation:fadeUp .6s ease forwards 1.9s;
+  }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none; } }
+  .intro-bar{ width:220px; height:2px; background:var(--line); margin-top:26px; border-radius:2px; overflow:hidden; }
+  .intro-bar span{ display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--cyan)); animation:loadBar 2.2s ease forwards .2s; }
+  @keyframes loadBar{ to{ width:100%; } }
+
+  @media (prefers-reduced-motion:reduce){
+    #intro{ display:none; }
+  }
+
+  /* ===================== NAV ===================== */
+  header.nav{
+    position:fixed; top:14px; left:clamp(14px,3vw,32px); right:clamp(14px,3vw,32px); z-index:50;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:18px;
+    box-shadow:0 8px 30px -14px rgba(0,0,0,.5);
+    transition:border-color .3s ease, background .3s ease, box-shadow .3s ease, top .3s ease;
+  }
+  header.nav.scrolled{ border-color:var(--glass-border-hi); background:var(--glass-hover); box-shadow:0 12px 34px -12px rgba(0,0,0,.65); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:68px; padding-inline:26px; }
+  .brand{ font-family:var(--font-mono); font-weight:700; font-size:16px; letter-spacing:.3px; color:var(--cyan); }
+  .brand .cur{ color:var(--violet); animation:blink 1.1s steps(1) infinite; }
+  .nav-links{ display:flex; gap:30px; align-items:flex-start; }
+  .nav-links a{ position:relative; font-family:var(--font-mono); font-size:13px; color:var(--text); transition:color .2s; padding-top:14px; }
+  .nav-links a .idx{ position:absolute; top:-2px; left:0; font-size:9px; color:var(--cyan); letter-spacing:.5px; }
+  .nav-links a:hover,.nav-links a.active{ color:var(--cyan); }
+  .nav-cta{
+    font-family:var(--font-mono); font-size:13px; color:var(--bg)!important;
+    background:var(--accent); padding:9px 18px; border-radius:8px; font-weight:700;
+    transition:transform .2s, box-shadow .2s; margin-top:8px;
+  }
+  .nav-cta:hover{ transform:translateY(-2px); box-shadow:0 8px 20px -8px var(--accent); }
+  .burger{ display:none; position:relative; width:26px; height:18px; background:none; border:0; cursor:pointer; padding:0; }
+  .burger span{ position:absolute; left:0; right:0; height:2px; background:var(--text); border-radius:2px; transition:transform .25s ease, opacity .2s ease; }
+  .burger span:nth-child(1){ top:0; }
+  .burger span:nth-child(2){ top:8px; }
+  .burger span:nth-child(3){ top:16px; }
+  .burger.open span:nth-child(1){ transform:translateY(8px) rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ transform:translateY(-8px) rotate(-45deg); }
+
+  /* ===================== HERO ===================== */
+  .hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px 0 40px; overflow:hidden; }
+  #hero-canvas{ position:absolute; inset:0; z-index:0; width:100%; height:100%; opacity:.95; pointer-events:none; }
+  .hero-inner{ position:relative; z-index:2; text-align:center; }
+  .eyebrow{ font-family:var(--font-mono); font-size:13px; color:var(--cyan); margin-bottom:22px; letter-spacing:.5px; }
+  .eyebrow::before{ content:"// "; color:var(--muted); }
+  .hero h1{
+    font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+    font-size:clamp(2.6rem,10vw,7.5rem); line-height:.98; letter-spacing:-2px; margin-bottom:26px;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(120deg,var(--accent),var(--accent-soft));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lead{
+    font-family:var(--font-mono); text-transform:uppercase; letter-spacing:1.5px;
+    color:#c3c9d6; font-size:clamp(.8rem,1.4vw,1rem); max-width:56ch; margin:0 auto 40px;
+  }
+  .btns{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; position:relative; z-index:2; }
+  .btn{
+    font-family:var(--font-mono); font-size:14px; padding:14px 24px; border-radius:10px;
+    border:1px solid var(--line); background:rgba(19,25,36,.7); color:var(--text);
+    cursor:pointer; transition:transform .2s, border-color .2s, background .2s;
+    display:inline-flex; align-items:center; gap:8px; backdrop-filter:blur(6px);
+  }
+  .btn:hover{ transform:translateY(-2px); border-color:var(--cyan); }
+  .btn.primary{ background:linear-gradient(120deg,var(--accent),#ff5f6d); border-color:transparent; font-weight:700; color:#0a0e14; }
+  .btn.primary:hover{ box-shadow:0 12px 28px -10px var(--accent); }
+
+  /* stack strip — static, editorial (not a scrolling marquee) */
+  .stack-strip{
+    position:relative; z-index:2; margin-top:64px; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:22px 0; display:flex; flex-wrap:wrap; gap:12px 30px; justify-content:center;
+  }
+  .stack-strip span{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted);
+    white-space:nowrap; position:relative; padding-right:30px;
+  }
+  .stack-strip span::after{ content:"·"; position:absolute; right:9px; color:var(--line); }
+  .stack-strip span:last-child{ padding-right:0; }
+  .stack-strip span:last-child::after{ content:none; }
+  .stack-strip span.accent{ color:var(--cyan); }
+
+  /* ===================== SECTIONS ===================== */
+  section{ padding:110px 0; position:relative; z-index:1; }
+  .sec-eyebrow{ display:flex; align-items:center; gap:12px; font-family:var(--font-mono); font-size:13px; color:var(--cyan); margin-bottom:18px; letter-spacing:1px; text-transform:uppercase; }
+  .sec-eyebrow .no{ color:var(--muted); }
+  .sec-eyebrow::before{ content:"//"; color:var(--muted); }
+  .sec-title{ font-family:var(--font-display); font-weight:900; text-transform:uppercase; font-size:clamp(2rem,5vw,3.4rem); letter-spacing:-1px; margin-bottom:44px; line-height:1.02; }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns:1.3fr .9fr; gap:48px; }
+  .about-grid p{ color:#c3c9d6; margin-bottom:16px; font-size:1.02rem; }
+  .about-grid p strong{ color:var(--text); }
+  .stack-card{
+    background:var(--glass); border:1px solid var(--glass-border); border-radius:var(--radius); padding:26px;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    transition:border-color .25s, background .25s, transform .25s, box-shadow .25s;
+  }
+  .stack-card:hover{ border-color:var(--glass-border-hi); background:var(--glass-hover); }
+  .stack-card + .stack-card{ margin-top:20px; }
+  .stack-card h4{ font-family:var(--font-mono); font-size:12px; color:var(--cyan); margin-bottom:16px; font-weight:500; text-transform:uppercase; letter-spacing:1px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{
+    font-family:var(--font-mono); font-size:12.5px; padding:7px 13px; border-radius:8px;
+    background:rgba(26,33,48,.55); border:1px solid var(--glass-border); color:#c3c9d6;
+    backdrop-filter:blur(8px);
+    transition:border-color .2s, color .2s, transform .2s, box-shadow .2s;
+  }
+  .chip:hover{ border-color:var(--accent); color:var(--text); transform:translateY(-2px); box-shadow:0 8px 18px -10px rgba(255,122,61,.5); }
+
+  .lang-row{ display:flex; align-items:center; justify-content:space-between; font-family:var(--font-mono); font-size:12.5px; color:#c3c9d6; padding:7px 0; border-bottom:1px dashed var(--line); }
+  .lang-row:last-child{ border-bottom:0; }
+  .lang-row span.lvl{ color:var(--cyan); }
+
+  /* MASTER'S GOAL CALLOUT */
+  .goal{
+    background:linear-gradient(135deg, rgba(255,122,61,.12), rgba(79,214,255,.06)), var(--glass);
+    border:1px solid var(--glass-border); border-radius:22px; padding:40px 44px;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    box-shadow:0 20px 50px -30px rgba(0,0,0,.6);
+  }
+  .goal h3{ font-family:var(--font-head); font-weight:700; font-size:1.4rem; margin-bottom:14px; }
+  .goal p{ color:#c3c9d6; max-width:74ch; }
+  .goal .chips{ margin-top:22px; }
+
+  /* EXPERTISE (3-col like tamalsen) */
+  .expertise-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .exp-card{
+    position:relative; background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; padding:34px 28px;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    transition:transform .25s, border-color .25s, box-shadow .25s, background .25s;
+    transform-style:preserve-3d; will-change:transform;
+  }
+  .exp-card::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; opacity:0; pointer-events:none;
+    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(255,122,61,.14), transparent 60%);
+    transition:opacity .3s;
+  }
+  .exp-card:hover::before{ opacity:1; }
+  .exp-card:hover{ border-color:var(--glass-border-hi); box-shadow:0 24px 48px -24px rgba(0,0,0,.55); background:var(--glass-hover); }
+  .exp-card .exp-no{ font-family:var(--font-display); font-weight:900; font-size:2.6rem; color:var(--surface-2); -webkit-text-stroke:1.5px var(--line); margin-bottom:18px; }
+  .exp-card h4{ font-family:var(--font-head); font-size:1.2rem; font-weight:700; margin-bottom:12px; }
+  .exp-card p{ color:var(--muted); font-size:.92rem; margin-bottom:18px; }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline{ position:relative; padding-left:28px; border-left:2px solid var(--line); display:flex; flex-direction:column; gap:48px; }
+  .tl-item{ position:relative; }
+  .tl-item::before{
+    content:""; position:absolute; left:-34.5px; top:4px; width:11px; height:11px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent);
+  }
+  .tl-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:6px; }
+  .tl-role{ font-family:var(--font-head); font-size:1.2rem; font-weight:700; }
+  .tl-date{ font-family:var(--font-mono); font-size:12px; color:var(--accent); margin-left:auto; text-transform:uppercase; letter-spacing:.5px; }
+  .tl-org{ color:var(--cyan); font-family:var(--font-mono); font-size:12.5px; margin-bottom:12px; }
+  .tl-item ul{ color:#c3c9d6; padding-left:18px; margin-bottom:14px; }
+  .tl-item li{ margin-bottom:6px; }
+  .tl-item .chips{ margin-top:4px; }
+
+  /* WORK / PROJECTS grid */
+  .filter-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px; }
+  .filter-btn{
+    font-family:var(--font-mono); font-size:12.5px; text-transform:uppercase; letter-spacing:.5px;
+    padding:9px 18px; border-radius:100px; border:1px solid var(--line); background:transparent; color:var(--muted);
+    cursor:pointer; transition:all .2s;
+  }
+  .filter-btn:hover{ color:var(--text); border-color:var(--cyan); }
+  .filter-btn.active{ background:var(--accent); border-color:var(--accent); color:#0a0e14; font-weight:700; }
+
+  .work-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+  .work-card{
+    position:relative; background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; overflow:hidden;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    transition:transform .3s, border-color .3s, box-shadow .3s, background .3s; display:flex; flex-direction:column;
+  }
+  .work-card.hide{ display:none; }
+  .work-card::after{
+    content:""; position:absolute; inset:0; z-index:1; opacity:0; pointer-events:none;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%), rgba(79,214,255,.10), transparent 60%);
+    transition:opacity .3s;
+  }
+  .work-card:hover::after{ opacity:1; }
+  .work-card:hover{ transform:translateY(-6px); border-color:var(--glass-border-hi); box-shadow:0 30px 60px -30px rgba(0,0,0,.6); }
+  .work-shot{
+    position:relative; min-height:220px; overflow:hidden;
+    background:linear-gradient(135deg, rgba(255,122,61,.18), rgba(79,214,255,.10)), var(--surface-2);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .work-shot img{ width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+  .work-shot svg{ width:100%; height:100%; position:absolute; inset:0; opacity:.55; }
+  .work-shot .glyph{ font-size:48px; position:relative; z-index:1; }
+  .work-shot.tall{ min-height:460px; }
+  .work-shot iframe{ width:100%; height:100%; position:absolute; inset:0; border:0; z-index:1; background:#05070c; }
+
+  /* live 3D viewer launch overlay */
+  .launch-3d{
+    position:absolute; inset:0; z-index:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    background:linear-gradient(180deg, rgba(5,7,12,.35), rgba(5,7,12,.75));
+    border:0; cursor:pointer; width:100%; height:100%; color:var(--text);
+    transition:background .2s;
+  }
+  .launch-3d:hover{ background:linear-gradient(180deg, rgba(5,7,12,.45), rgba(5,7,12,.85)); }
+  .launch-3d .play{
+    width:60px; height:60px; border-radius:50%; background:var(--accent); color:#0a0e14;
+    display:flex; align-items:center; justify-content:center; font-size:20px;
+    box-shadow:0 12px 28px -10px rgba(255,122,61,.8); transition:transform .2s;
+  }
+  .launch-3d:hover .play{ transform:scale(1.08); }
+  .launch-3d .label{ font-family:var(--font-mono); font-weight:700; font-size:14px; letter-spacing:.3px; }
+  .launch-3d .meta{ font-family:var(--font-mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .viewer-actions{ display:flex; gap:10px; align-items:center; margin-top:14px; flex-wrap:wrap; }
+  .work-tag{
+    position:absolute; top:16px; left:16px; z-index:2; font-family:var(--font-mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:.5px; background:rgba(10,14,20,.75); border:1px solid var(--line); color:var(--cyan); padding:6px 12px; border-radius:100px;
+    backdrop-filter:blur(4px);
+  }
+  .work-body{ padding:28px 26px; display:flex; flex-direction:column; flex:1; }
+  .work-body h3{ font-family:var(--font-head); font-size:1.35rem; font-weight:700; margin-bottom:12px; }
+  .work-body p{ color:#c3c9d6; font-size:.94rem; margin-bottom:16px; }
+  .work-body ul{ color:#c3c9d6; padding-left:18px; margin-bottom:18px; font-size:.9rem; }
+  .work-body li{ margin-bottom:5px; }
+  .work-body .chips{ margin-top:auto; }
+
+  .work-card.wide{ grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; }
+  .work-card.wide .work-shot{ min-height:100%; }
+
+  .projects-cta{ text-align:center; margin-top:48px; }
+  .projects-cta p{ color:var(--muted); font-family:var(--font-mono); font-size:13px; margin-bottom:16px; }
+
+  /* SKILLS / TOOLBOX */
+  .skills-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:32px; }
+  .bar-row{ margin-bottom:22px; }
+  .bar-row .bar-label{ display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:13px; margin-bottom:8px; text-transform:uppercase; letter-spacing:.5px; }
+  .bar-row .bar-label span:last-child{ color:var(--accent); }
+  .bar-track{ height:8px; border-radius:6px; background:var(--surface-2); border:1px solid var(--line); overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:6px; background:linear-gradient(90deg,var(--accent),var(--cyan)); width:0; transition:width 1.1s cubic-bezier(.2,.8,.2,1); }
+
+  /* EDUCATION */
+  .edu-card{
+    background:var(--glass); border:1px solid var(--glass-border); border-radius:var(--radius); padding:28px 30px;
+    backdrop-filter:blur(var(--blur)); -webkit-backdrop-filter:blur(var(--blur));
+    transition:border-color .25s, background .25s;
+  }
+  .edu-card:hover{ border-color:var(--glass-border-hi); background:var(--glass-hover); }
+  .edu-card + .edu-card{ margin-top:20px; }
+  .edu-card h4{ font-family:var(--font-head); font-weight:700; font-size:1.15rem; margin-bottom:4px; }
+  .edu-card .org{ color:var(--cyan); font-family:var(--font-mono); font-size:12.5px; margin-bottom:4px; }
+  .edu-card .date{ color:var(--muted); font-family:var(--font-mono); font-size:12px; margin-bottom:10px; text-transform:uppercase; }
+
+  /* CONTACT — big type CTA */
+  .contact{ text-align:center; }
+  .contact-title{
+    font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+    font-size:clamp(2.4rem,9vw,6rem); line-height:.98; letter-spacing:-2px; margin-bottom:28px;
+  }
+  .contact p.sub{ color:var(--muted); font-family:var(--font-mono); font-size:.85rem; text-transform:uppercase; letter-spacing:1px; max-width:52ch; margin:0 auto 40px; }
+  .contact-btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .contact-meta{ display:flex; gap:26px; justify-content:center; flex-wrap:wrap; margin-top:34px; font-family:var(--font-mono); font-size:12.5px; color:var(--muted); }
+
+  /* FOOTER */
+  footer{ border-top:1px solid var(--line); padding:34px 0; text-align:center; position:relative; z-index:1; }
+  footer p{ font-family:var(--font-mono); font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+
+  /* reveal-on-scroll */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width:900px){
+    .about-grid, .skills-grid{ grid-template-columns:1fr; }
+    .expertise-grid{ grid-template-columns:1fr; }
+    .work-grid{ grid-template-columns:1fr; }
+    .work-card.wide{ grid-template-columns:1fr; }
+    .work-card.wide .work-shot{ min-height:220px; }
+    .nav-links{
+      position:fixed; inset:76px 0 auto 0; flex-direction:column; gap:0;
+      background:var(--bg); border-bottom:1px solid var(--line); padding:8px 0;
+      transform:translateY(-120%); transition:transform .3s ease;
+    }
+    .nav-links.open{ transform:none; }
+    .nav-links a{ padding:14px 24px; width:100%; font-size:15px; }
+    .nav-links a .idx{ left:24px; }
+    .nav-cta{ margin:8px 24px; text-align:center; }
+    .burger{ display:block; }
+    .tl-date{ margin-left:0; }
+    .goal{ padding:28px 24px; }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="top-fade" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- ===================== COVER / INTRO ===================== -->
+<div id="intro" aria-hidden="true">
+  <div class="intro-name">James Chilumba Ngwira_</div>
+  <p class="intro-sub">// booting portfolio, CS graduate, full-stack &amp; 3D web</p>
+  <div class="intro-bar"><span></span></div>
+</div>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#home" class="brand">JamesNgwira.<span class="cur">_</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home"><span class="idx">01</span>// home</a>
+      <a href="#about"><span class="idx">02</span>// about</a>
+      <a href="#expertise"><span class="idx">03</span>// expertise</a>
+      <a href="#work"><span class="idx">04</span>// work</a>
+      <a href="#experience"><span class="idx">05</span>// experience</a>
+      <a href="#contact"><span class="idx">06</span>// contact</a>
+      <a href="https://github.com/James-Chilumba-Ngwira" target="_blank" rel="noopener" class="nav-cta">GitHub ↗</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="home">
+  <canvas id="hero-canvas"></canvas>
+  <div class="wrap hero-inner">
+    <p class="eyebrow">computer science graduate · almaty, kazakhstan</p>
+    <h1>James Chilumba<br><span class="grad">Ngwira</span></h1>
+    <p class="lead">Software Engineer, Full-Stack, Blockchain &amp; 3D Web Developer</p>
+    <div class="btns">
+      <a href="#work" class="btn primary">View my work ↓</a>
+      <a href="resume.pdf" class="btn" target="_blank" rel="noopener">Download résumé</a>
+      <a href="#contact" class="btn">Get in touch</a>
+    </div>
+  </div>
+
+  <div class="wrap stack-strip">
+    <span>React</span><span>TypeScript</span><span>Three.js</span><span>Blockchain</span>
+    <span>Machine Learning</span><span>Supabase</span><span>Python</span><span>WebGL</span>
+    <span class="accent">Applying for MSc CS · 2026</span>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">02</span> about me</p>
+    <h2 class="sec-title reveal">Who I Am</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>I'm a <strong>Computer Science graduate</strong> from Kazakh-British Technical University (KBTU) with hands-on experience across software engineering, web development, and immersive 3D technologies. Over two internships and a final-year research project, I've shipped an interactive 3D museum experience, a full organizational website redesign, and a blockchain + machine-learning prototype for immigration management.</p>
+        <p>I like problems that sit at the intersection of <strong>emerging technology and real-world impact</strong>, verifying identity with blockchain, modelling intelligent document analysis with ML, or making a 3D scene run smoothly in a browser. That intersection is exactly what I want to keep researching at the graduate level.</p>
+        <p>I'm currently finishing my degree (graduating July 2026) and preparing to pursue a <strong>Master's in Computer Science</strong>, with research interests in intelligent software systems, distributed technologies, and human-centered computing.</p>
+      </div>
+      <div>
+        <div class="stack-card reveal">
+          <h4>// quick facts</h4>
+          <div class="chips">
+            <span class="chip">Almaty, Kazakhstan</span>
+            <span class="chip">BSc Computer Systems &amp; Software</span>
+            <span class="chip">KBTU · 2022 – 2026</span>
+            <span class="chip">Open to opportunities</span>
+          </div>
+        </div>
+        <div class="stack-card reveal">
+          <h4>// languages</h4>
+          <div class="lang-row"><span>English</span><span class="lvl">Native</span></div>
+          <div class="lang-row"><span>Kazakh</span><span class="lvl">Beginner</span></div>
+          <div class="lang-row"><span>Russian</span><span class="lvl">Elementary</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MASTER'S GOAL CALLOUT ===================== -->
+<section id="research" style="padding-top:0;">
+  <div class="wrap">
+    <div class="goal reveal">
+      <h3>Why I'm applying for a Master's in Computer Science</h3>
+      <p>My final-year research into blockchain-based immigration management convinced me that the hardest, most useful problems need deeper theory than an undergraduate degree gives you. I'm seeking a graduate program to advance research in <strong>intelligent software systems</strong>, <strong>distributed technologies</strong>, and <strong>human-centered computing</strong>, and to turn prototypes like IMS-IS into rigorously evaluated systems.</p>
+      <div class="chips">
+        <span class="chip">Intelligent Software Systems</span>
+        <span class="chip">Distributed Systems</span>
+        <span class="chip">Human-Centered Computing</span>
+        <span class="chip">Applied Machine Learning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERTISE ===================== -->
+<section id="expertise">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">03</span> my expertise</p>
+    <h2 class="sec-title reveal">What I Build With</h2>
+    <div class="expertise-grid">
+      <div class="exp-card reveal">
+        <div class="exp-no">01</div>
+        <h4>Full-Stack Development</h4>
+        <p>Building responsive, component-driven web apps end to end, from database schema to polished, accessible UI.</p>
+        <div class="chips">
+          <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Supabase</span><span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-no">02</div>
+        <h4>3D &amp; Immersive Web</h4>
+        <p>Modelling, texturing and rendering interactive 3D experiences that run smoothly straight in the browser.</p>
+        <div class="chips">
+          <span class="chip">Three.js</span><span class="chip">WebGL</span><span class="chip">Blender</span><span class="chip">Substance Painter</span>
+        </div>
+        <p style="margin-top:16px;">
+          <a href="https://sketchfab.com/jamescnofficial" target="_blank" rel="noopener" class="chip">See my models on Sketchfab ↗</a>
+        </p>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-no">03</div>
+        <h4>Blockchain &amp; Machine Learning</h4>
+        <p>Designing tamper-evident, privacy-aware systems and exploring intelligent document analysis for real institutions.</p>
+        <div class="chips">
+          <span class="chip">Blockchain</span><span class="chip">Machine Learning</span><span class="chip">Python</span><span class="chip">Systems Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK / PROJECTS ===================== -->
+<section id="work">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">04</span> selected work</p>
+    <h2 class="sec-title reveal">Featured Projects</h2>
+
+    <div class="filter-row reveal" id="filterRow">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="3d">3D &amp; WebGL</button>
+      <button class="filter-btn" data-filter="web">Web Development</button>
+      <button class="filter-btn" data-filter="blockchain">Blockchain &amp; ML</button>
+    </div>
+
+    <div class="work-grid" id="workGrid">
+
+      <!-- PROJECT 1: Kazakhstan Virtual Museum -->
+      <div class="work-card wide reveal" data-cat="3d">
+        <div class="work-shot tall" id="museumShot">
+          <span class="work-tag">3D &amp; WebGL</span>
+          <img src="assets/img/museum-scene.jpg" alt="Kazakhstan Virtual Museum, Three.js scene screenshot showing the gallery pavilion under a night sky" />
+          <button type="button" class="launch-3d" id="launchMuseumViewer">
+            <span class="play">▶</span>
+            <span class="label">Launch interactive 3D viewer</span>
+            <span class="meta">Live Three.js scene · ~40MB · drag to orbit</span>
+          </button>
+        </div>
+        <div class="work-body">
+          <h3>Kazakhstan Virtual Museum</h3>
+          <p>An interactive 3D museum experience built with Three.js, letting visitors explore Kazakh cultural artifacts, including a hand-modelled traditional <strong>dombra</strong>, inside a fully navigable WebGL environment set beneath a night sky.</p>
+          <ul>
+            <li>Gallery pavilion modelled in Maya; artifacts sculpted and textured in Blender / Substance Painter, all exported to an optimized Three.js scene graph.</li>
+            <li>HDR environment lighting and ACES tone-mapping for a realistic, gallery-like atmosphere in the browser.</li>
+            <li>Orbit-based navigation with interactive object exploration to boost engagement and educational value.</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Three.js</span><span class="chip">WebGL</span><span class="chip">Maya</span><span class="chip">Blender</span><span class="chip">Substance Painter</span>
+          </div>
+          <div class="viewer-actions">
+            <a href="final_threejs_museum_2/index.html" target="_blank" rel="noopener" class="chip">Open fullscreen ↗</a>
+            <a href="assets/models/Museum_Final.mb" download class="chip">Download 3D scene (Museum_Final.mb)</a>
+            <a href="https://sketchfab.com/jamescnofficial" target="_blank" rel="noopener" class="chip">More models on Sketchfab ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: ESG KBTU Website -->
+      <div class="work-card reveal" data-cat="web">
+        <div class="work-shot">
+          <span class="work-tag">Web Development</span>
+          <img src="assets/img/esg-kbtu.jpg" alt="ESG KBTU logo" style="object-fit:contain; background:#022E6B;" />
+        </div>
+        <div class="work-body">
+          <h3>ESG KBTU Digital Platform</h3>
+          <p>A ground-up redesign of the ESG Competence Center's web presence, originally built with React during the internship, then independently redesigned around a bespoke editorial identity, deep forest green and gold, serif display type, numbered marginalia, in place of a generic template look.</p>
+          <ul>
+            <li>Custom design system in hand-written HTML/CSS: duotone photo treatment, hairline-rule layouts, and a certification-seal graphic replacing generic icon cards.</li>
+            <li>Dedicated ESG Principles page covering the three pillars, key regulatory documents, and major initiatives.</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">HTML/CSS/JS</span><span class="chip">Design Systems</span><span class="chip">React + TS (original build)</span>
+          </div>
+          <div class="viewer-actions">
+            <a href="KBTU-ESG-Website/" target="_blank" rel="noopener" class="chip">Visit live website ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: Immigration Management System -->
+      <div class="work-card reveal" data-cat="blockchain">
+        <div class="work-shot">
+          <span class="work-tag">Blockchain &amp; ML</span>
+          <img src="assets/img/ims-cover.png" alt="Immigration Management System website cover" />
+        </div>
+        <div class="work-body">
+          <h3>Immigration Management System</h3>
+          <p>A secure, blockchain-integrated platform to modernize registration, verification and visa lifecycle tracking for international students, my final-year research project. Designed against a Supabase/Postgres schema (RLS, JWT auth); this live demo runs on a self-contained in-browser backend I built so it works without any external service.</p>
+          <ul>
+            <li>Blockchain-hashed digital student identity with real HMAC-signed, QR-based, tamper-evident verification.</li>
+            <li>Role-based dashboards (Immigration Authority / Institution / Student) with live analytics, visa alerts, and student registration.</li>
+          <li>Full student self-service portal, visa renewal requests, contact info updates, institution messaging, and document downloads.</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">React + TS</span><span class="chip">Supabase Schema Design</span><span class="chip">Blockchain</span><span class="chip">Machine Learning</span>
+          </div>
+          <div class="viewer-actions">
+            <a href="IMS-Immigration-System/" target="_blank" rel="noopener" class="chip">Visit live demo ↗</a>
+          </div>
+          <p style="margin-top:12px; font-family:var(--font-mono); font-size:11.5px; color:var(--muted);">
+            Demo logins, Immigration: <code>immigration@test.kz</code> / <code>password123</code> · Institution: <code>admin@nu.edu.kz</code> / <code>password123</code> · Student: <code>chinedu.okafor@student.kz</code> / <code>password123</code>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="projects-cta reveal">
+      <p>These are academic and internship prototypes, code lives in private/university repos. Happy to walk through any of them in detail.</p>
+      <a href="https://github.com/James-Chilumba-Ngwira" target="_blank" rel="noopener" class="btn primary">See more on GitHub ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE ===================== -->
+<section id="experience">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">05</span> career so far</p>
+    <h2 class="sec-title reveal">Experience</h2>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-head">
+          <span class="tl-role">Software Development Intern</span>
+          <span class="tl-date">Feb 2026 – Apr 2026</span>
+        </div>
+        <div class="tl-org">ESG KBTU · Kazakh-British Technical University</div>
+        <ul>
+          <li>Designed and developed a functional website prototype to modernize ESG KBTU's digital presence and improve information accessibility.</li>
+          <li>Collaborated with stakeholders to translate organizational requirements into user-centered interface designs.</li>
+          <li>Improved navigation and interface consistency by applying modern UI/UX principles, and produced responsive layouts for desktop and mobile.</li>
+          <li>Participated in iterative development cycles, incorporating supervisor feedback to refine functionality.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Tailwind CSS</span><span class="chip">Framer Motion</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-head">
+          <span class="tl-role">Academic Research, Final Year Project</span>
+          <span class="tl-date">Dec 2025 – Jun 2026</span>
+        </div>
+        <div class="tl-org">Immigration Management System for International Students · KBTU</div>
+        <ul>
+          <li>Designed and proposed a next-generation immigration management system to improve document verification, security, and administrative efficiency for international students in Kazakhstan.</li>
+          <li>Combined blockchain-based credential verification with machine learning for intelligent document analysis and automated verification workflows.</li>
+          <li>Architected a privacy-focused, scalable system with role-based access for institutions, immigration authorities, and verifiers.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">Blockchain</span><span class="chip">Machine Learning</span><span class="chip">React + Supabase</span><span class="chip">Systems Analysis</span><span class="chip">UML</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-head">
+          <span class="tl-role">Web &amp; 3D Developer Intern</span>
+          <span class="tl-date">Jun 2025</span>
+        </div>
+        <div class="tl-org">KBTU GameLab · Kazakh-British Technical University</div>
+        <ul>
+          <li>Designed and developed an interactive 3D museum website showcasing cultural artifacts from Kazakhstan.</li>
+          <li>Implemented immersive virtual environments using modern web technologies, and optimized 3D asset loading and rendering for smooth browser performance.</li>
+          <li>Integrated interactive object exploration to enhance user engagement and educational value; collaborated with researchers throughout the development lifecycle.</li>
+        </ul>
+        <div class="chips">
+          <span class="chip">Three.js</span><span class="chip">WebGL</span><span class="chip">Blender</span><span class="chip">Substance Painter</span>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-head">
+          <span class="tl-role">English Speaking Club Instructor</span>
+          <span class="tl-date">Additional Experience</span>
+        </div>
+        <div class="tl-org">KBTU</div>
+        <ul>
+          <li>Planned and delivered engaging English communication lessons and interactive educational activities that improved student participation.</li>
+          <li>Strengthened leadership, presentation, and cross-cultural communication skills.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILLS / TOOLBOX ===================== -->
+<section id="skills">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">·</span> toolbox</p>
+    <h2 class="sec-title reveal">Tech I Work With</h2>
+
+    <div class="skills-grid">
+      <div class="reveal">
+        <div class="bar-row">
+          <div class="bar-label"><span>Programming</span><span>90%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="90"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Web Development</span><span>91%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="91"></div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>Tools &amp; Problem Solving</span><span>90%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-w="90"></div></div>
+        </div>
+      </div>
+
+      <div class="stack-card reveal">
+        <h4>// languages &amp; tools</h4>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">Java</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">SQL</span>
+          <span class="chip">React</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">Three.js</span>
+          <span class="chip">OOP</span>
+          <span class="chip">Database Design</span>
+          <span class="chip">Git</span>
+          <span class="chip">Machine Learning</span>
+          <span class="chip">Blockchain</span>
+          <span class="chip">UML</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EDUCATION ===================== -->
+<section id="education">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal"><span class="no">·</span> education</p>
+    <h2 class="sec-title reveal">Education</h2>
+
+    <div class="edu-card reveal">
+      <h4>BSc. Computer Systems and Software</h4>
+      <div class="org">Kazakh-British Technical University (KBTU), Almaty, Kazakhstan</div>
+      <div class="date">September 2022 – July 2026</div>
+      <div class="chips">
+        <span class="chip">Software Engineering</span>
+        <span class="chip">Database Design</span>
+        <span class="chip">Systems Analysis</span>
+      </div>
+    </div>
+
+    <div class="edu-card reveal">
+      <h4>High School Education</h4>
+      <div class="org">MCM Mufulira Secondary School, Mufulira, Zambia</div>
+      <div class="date">January 2016 – November 2020</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" class="contact">
+  <div class="wrap">
+    <p class="sec-eyebrow reveal" style="justify-content:center"><span class="no">06</span> contact</p>
+    <h2 class="contact-title reveal">Let's Talk</h2>
+    <p class="sub reveal">Open to graduate research opportunities, junior developer roles, and interesting collaborations. Email is the fastest way to reach me.</p>
+    <div class="contact-btns reveal">
+      <a href="mailto:jamesngwira75@gmail.com" class="btn primary">jamesngwira75@gmail.com</a>
+      <a href="https://github.com/James-Chilumba-Ngwira" target="_blank" rel="noopener" class="btn">GitHub</a>
+      <a href="https://sketchfab.com/jamescnofficial" target="_blank" rel="noopener" class="btn">Sketchfab</a>
+    </div>
+    <div class="contact-meta reveal">
+      <span>+7 707 371 9214</span>
+      <span>Almaty, Kazakhstan</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Built with HTML, CSS, JS &amp; Three.js · © 2026 James Chilumba Ngwira</p>
+  </div>
+</footer>
+
+<!-- Three.js hero scene (classic/UMD build, no bundler needed) -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script>
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const heroSection = document.getElementById('home');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!window.THREE || !canvas) return;
+
+  let renderer, scene, camera, group, farGroup, sphereGlow;
+  const meshes = [];
+  const baseCamZ = 11;
+
+  function init(){
+    renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0e14, 0.032);
+
+    camera = new THREE.PerspectiveCamera(45, 1, .1, 100);
+    camera.position.set(0, 0, baseCamZ);
+
+    group = new THREE.Group();
+    scene.add(group);
+
+    // ---- constellation particle field (depth layer, parallaxes independently) ----
+    farGroup = new THREE.Group();
+    scene.add(farGroup);
+
+    const dotTex = (() => {
+      const c = document.createElement('canvas');
+      c.width = c.height = 64;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(32,32,0,32,32,32);
+      g.addColorStop(0, 'rgba(255,255,255,1)');
+      g.addColorStop(.4, 'rgba(255,255,255,.7)');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,64,64);
+      return new THREE.CanvasTexture(c);
+    })();
+
+    const PCOUNT = 160;
+    const positions = new Float32Array(PCOUNT * 3);
+    const colors = new Float32Array(PCOUNT * 3);
+    const palette = [[1,.48,.24],[.31,.84,1],[.55,.49,1]]; // accent / cyan / violet
+    for(let i=0;i<PCOUNT;i++){
+      const x = (Math.random()-.5) * 22;
+      const y = (Math.random()-.5) * 14;
+      const z = -Math.random() * 14 - 1.5;
+      positions[i*3] = x; positions[i*3+1] = y; positions[i*3+2] = z;
+      const c = palette[i % palette.length];
+      colors[i*3] = c[0]; colors[i*3+1] = c[1]; colors[i*3+2] = c[2];
+    }
+    const particleGeo = new THREE.BufferGeometry();
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    particleGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const particleMat = new THREE.PointsMaterial({
+      size:.16, map:dotTex, transparent:true, opacity:.85, vertexColors:true,
+      blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true,
+    });
+    farGroup.add(new THREE.Points(particleGeo, particleMat));
+
+    // thin connective lines between nearby particles — a subtle "network" feel
+    const linePositions = [];
+    const maxLinks = 140;
+    for(let i=0;i<PCOUNT && linePositions.length/6 < maxLinks;i++){
+      for(let j=i+1;j<PCOUNT && linePositions.length/6 < maxLinks;j++){
+        const dx = positions[i*3]-positions[j*3], dy = positions[i*3+1]-positions[j*3+1], dz = positions[i*3+2]-positions[j*3+2];
+        const d2 = dx*dx+dy*dy+dz*dz;
+        if(d2 < 9){
+          linePositions.push(positions[i*3],positions[i*3+1],positions[i*3+2], positions[j*3],positions[j*3+1],positions[j*3+2]);
+        }
+      }
+    }
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(linePositions), 3));
+    const lineMat = new THREE.LineBasicMaterial({ color:0x4fd6ff, transparent:true, opacity:.1, blending:THREE.AdditiveBlending });
+    farGroup.add(new THREE.LineSegments(lineGeo, lineMat));
+
+    // warm cube
+    const box1 = new THREE.Mesh(
+      new THREE.BoxGeometry(2.6, 2.6, 2.6),
+      new THREE.MeshStandardMaterial({ color:0xff7a3d, roughness:.45, metalness:.15, emissive:0x2a1206, emissiveIntensity:.4 })
+    );
+    box1.position.set(-2.4, .6, -1);
+    box1.rotation.set(.4, .6, 0);
+    group.add(box1); meshes.push({ m:box1, speed:.12, amp:.35, phase:0 });
+
+    // dark navy cube
+    const box2 = new THREE.Mesh(
+      new THREE.BoxGeometry(1.9, 1.9, 1.9),
+      new THREE.MeshStandardMaterial({ color:0x1a2130, roughness:.5, metalness:.2 })
+    );
+    box2.position.set(-3.6, 2.3, -2.4);
+    box2.rotation.set(.2, .3, .1);
+    group.add(box2); meshes.push({ m:box2, speed:.09, amp:.3, phase:1.4 });
+
+    // glowing sphere
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(.55, 32, 32),
+      new THREE.MeshStandardMaterial({ color:0xffb37a, emissive:0xff8c42, emissiveIntensity:1.3, roughness:.3 })
+    );
+    sphere.position.set(1.6, 2.5, -1.5);
+    group.add(sphere); meshes.push({ m:sphere, speed:.2, amp:.2, phase:2.1 });
+
+    // glow sprite behind sphere
+    const glowCanvas = document.createElement('canvas');
+    glowCanvas.width = glowCanvas.height = 256;
+    const gctx = glowCanvas.getContext('2d');
+    const grad = gctx.createRadialGradient(128,128,0,128,128,128);
+    grad.addColorStop(0, 'rgba(255,179,122,.9)');
+    grad.addColorStop(1, 'rgba(255,122,61,0)');
+    gctx.fillStyle = grad; gctx.fillRect(0,0,256,256);
+    const glowTex = new THREE.CanvasTexture(glowCanvas);
+    sphereGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map:glowTex, transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }));
+    sphereGlow.scale.set(3.2,3.2,1);
+    sphere.add(sphereGlow);
+
+    // tilted cylinder
+    const cyl = new THREE.Mesh(
+      new THREE.CylinderGeometry(.5, .5, 2.6, 24),
+      new THREE.MeshStandardMaterial({ color:0x14181f, roughness:.6, metalness:.1 })
+    );
+    cyl.position.set(-.6, -2.6, -1.2);
+    cyl.rotation.set(.9, .3, .5);
+    group.add(cyl); meshes.push({ m:cyl, speed:.1, amp:.25, phase:.7 });
+
+    scene.add(new THREE.AmbientLight(0x2a3550, 1.1));
+    const warmLight = new THREE.PointLight(0xff9a5a, 6, 20);
+    warmLight.position.set(2, 3, 3);
+    scene.add(warmLight);
+    const rimLight = new THREE.DirectionalLight(0x4fd6ff, .6);
+    rimLight.position.set(-4, -2, 2);
+    scene.add(rimLight);
+
+    resize();
+    addEventListener('resize', resize);
+    if(!reduceMotion){
+      addEventListener('pointermove', onPointerMove, { passive:true });
+      requestAnimationFrame(tick);
+    } else {
+      renderer.render(scene, camera);
+    }
+  }
+
+  let targetX = 0, targetY = 0;
+  function onPointerMove(e){
+    targetX = (e.clientX / innerWidth - .5) * 2;
+    targetY = (e.clientY / innerHeight - .5) * 2;
+  }
+
+  function resize(){
+    const rect = heroSection.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+
+  let t = 0;
+  function tick(){
+    t += 0.01;
+    meshes.forEach(o => {
+      o.m.rotation.x += o.speed * 0.01;
+      o.m.rotation.y += o.speed * 0.015;
+      o.m.position.y += Math.sin(t + o.phase) * 0.0015;
+    });
+    group.rotation.y += (targetX * .15 - group.rotation.y) * .03;
+    group.rotation.x += (-targetY * .1 - group.rotation.x) * .03;
+
+    // particle field: slow independent auto-rotation + a lighter parallax response (depth cue)
+    farGroup.rotation.y += 0.0009 + targetX * .0006;
+    farGroup.rotation.x += (-targetY * .04 - farGroup.rotation.x) * .015;
+
+    // scroll dolly: ease the camera back and drift the group as the hero scrolls past
+    const rect = heroSection.getBoundingClientRect();
+    const progress = Math.min(Math.max(-rect.top / (rect.height || 1), 0), 1);
+    camera.position.z += (baseCamZ + progress * 3.5 - camera.position.z) * .06;
+    group.position.y += (-progress * 1.2 - group.position.y) * .06;
+    farGroup.position.y += (progress * 0.6 - farGroup.position.y) * .06;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(tick);
+  }
+
+  try { init(); } catch(e) { /* fail silently — hero still looks fine without the 3D layer */ }
+})();
+</script>
+
+<script>
+  // intro cover — dismiss after animation or first interaction
+  const intro = document.getElementById('intro');
+  const dismissIntro = () => intro.classList.add('done');
+  setTimeout(dismissIntro, 2600);
+  addEventListener('scroll', dismissIntro, { once:true, passive:true });
+  intro.addEventListener('click', dismissIntro);
+
+  // sticky nav border on scroll
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 20));
+
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const links = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  // active link on scroll (scroll-spy)
+  const sections = [...document.querySelectorAll('section[id]')];
+  const navA = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        navA.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin:'-45% 0px -50% 0px' });
+  sections.forEach(s => spy.observe(s));
+
+  // reveal on scroll + animated skill bars
+  const revealer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('.bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.w + '%';
+        });
+        revealer.unobserve(e.target);
+      }
+    });
+  }, { threshold:.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealer.observe(el));
+
+  // project filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const workCards = document.querySelectorAll('.work-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter;
+      workCards.forEach(card => {
+        card.classList.toggle('hide', f !== 'all' && card.dataset.cat !== f);
+      });
+    });
+  });
+
+  // lazy-load the live Three.js museum viewer (only fetch the ~40MB scene on demand)
+  const launchBtn = document.getElementById('launchMuseumViewer');
+  const museumShot = document.getElementById('museumShot');
+  if(launchBtn && museumShot){
+    launchBtn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'final_threejs_museum_2/index.html';
+      iframe.title = 'Kazakhstan Virtual Museum, live Three.js viewer';
+      iframe.allow = 'fullscreen';
+      museumShot.querySelector('img').remove();
+      launchBtn.remove();
+      museumShot.appendChild(iframe);
+    });
+  }
+</script>
+
+<script>
+(function(){
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // ---- scroll progress bar ----
+  const progressBar = document.getElementById('scrollProgress');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    progressBar.style.width = (max > 0 ? (scrolled / max) * 100 : 0) + '%';
+  }
+  addEventListener('scroll', updateProgress, { passive:true });
+  updateProgress();
+
+  // ---- custom cursor (fine pointers only, respects reduced motion) ----
+  if(canHover && !reduceMotion){
+    document.documentElement.classList.add('has-cursor');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive:true });
+    (function cursorTick(){
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      rx += (mx - rx) * .18; ry += (my - ry) * .18;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(cursorTick);
+    })();
+    const hoverables = document.querySelectorAll('a, button, .chip, .work-card, .exp-card, .stack-card, .edu-card');
+    hoverables.forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+    });
+  }
+
+  // ---- magnetic buttons ----
+  if(canHover && !reduceMotion){
+    document.querySelectorAll('.btn, .nav-cta, .filter-btn').forEach(el => {
+      el.style.transition = 'transform .25s cubic-bezier(.2,.8,.2,1)';
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) * .25;
+        const y = (e.clientY - r.top - r.height/2) * .35;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
+
+  // ---- cursor-spotlight glow on glass cards (cheap: just sets CSS vars) ----
+  if(canHover){
+    document.querySelectorAll('.work-card, .exp-card').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
+
+  // ---- 3D tilt on expertise cards ----
+  if(canHover && !reduceMotion){
+    document.querySelectorAll('.exp-card').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - .5;
+        const py = (e.clientY - r.top) / r.height - .5;
+        el.style.transform = `perspective(900px) rotateX(${(-py*8).toFixed(2)}deg) rotateY(${(px*10).toFixed(2)}deg) translateY(-4px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
+})();
+</script>
+</body>
+</html>

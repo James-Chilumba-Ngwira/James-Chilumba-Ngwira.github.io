@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm src/App.tsx)",
+      "Bash(rm -f src/App.css)"
+    ]
+  }
+}

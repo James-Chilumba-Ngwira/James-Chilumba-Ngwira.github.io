@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kazakhstan Virtual Museum — Three.js Scene</title>
+  <style>
+    html, body { margin: 0; overflow: hidden; background:#05070c; height:100%; }
+    canvas { display: block; }
+
+    #loading-overlay{
+      position:fixed; inset:0; z-index:10; background:#05070c;
+      display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px;
+      font-family:"JetBrains Mono", ui-monospace, monospace; color:#8b93a5;
+      transition:opacity .5s ease, visibility .5s ease;
+    }
+    #loading-overlay.done{ opacity:0; visibility:hidden; pointer-events:none; }
+    #loading-overlay .spinner{
+      width:34px; height:34px; border-radius:50%;
+      border:2px solid #262f3f; border-top-color:#ff7a3d;
+      animation:spin 0.9s linear infinite;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    #loading-overlay p{ font-size:13px; letter-spacing:.5px; text-align:center; max-width:420px; padding:0 24px; line-height:1.6; }
+    #loading-progress{ color:#4fd6ff; }
+    #loading-overlay.error .spinner{ display:none; }
+    #loading-overlay .err-icon{ display:none; font-size:28px; }
+    #loading-overlay.error .err-icon{ display:block; }
+
+    #controls-hint{
+      position:fixed; left:50%; bottom:22px; transform:translate(-50%,8px);
+      font-family:"JetBrains Mono", ui-monospace, monospace; font-size:12px; letter-spacing:.5px;
+      color:#c3c9d6; background:rgba(10,14,20,.7); border:1px solid #262f3f; border-radius:100px;
+      padding:8px 16px; opacity:0; z-index:9; transition:opacity .5s ease, transform .5s ease;
+      pointer-events:none; white-space:nowrap;
+    }
+    #controls-hint.show{ opacity:1; transform:translate(-50%,0); }
+  </style>
+</head>
+<body>
+  <canvas class="webgl"></canvas>
+
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="err-icon">⚠</div>
+    <p id="loading-message">Loading 3D scene… <span id="loading-progress">0%</span></p>
+  </div>
+  <div id="controls-hint">Drag to orbit · Scroll to zoom</div>
+
+  <script>
+    // Classic (non-module) script — runs even when the module script below
+    // can't. Browsers block *external* `<script type="module" src="...">`
+    // files entirely under file://, so main.js never gets a chance to run
+    // its own file:// check. Catch it here instead, synchronously.
+    (function () {
+      var overlay = document.getElementById('loading-overlay');
+      var msg = document.getElementById('loading-message');
+      function showError(text) {
+        overlay.classList.add('error');
+        msg.textContent = text;
+      }
+      if (location.protocol === 'file:') {
+        showError('This 3D viewer needs to be served over http(s) — it won’t load when opened as a local file. View it on the live site, or run a local static server (e.g. "npx serve" or VS Code’s Live Server) to preview it.');
+        return;
+      }
+      // Safety net for non-file:// failures too (CDN unreachable, ad blocker, etc).
+      var moduleScript = document.getElementById('main-module');
+      moduleScript.addEventListener('error', function () {
+        showError('Couldn’t load the 3D viewer’s scripts. Check your connection (this loads Three.js from a CDN) and try again.');
+      });
+    })();
+  </script>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.177.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.177.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="main.js" id="main-module"></script>
+</body>
+</html>
